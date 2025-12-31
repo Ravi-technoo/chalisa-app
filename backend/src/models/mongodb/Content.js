@@ -43,7 +43,9 @@ const contentSchema = new mongoose.Schema(
     language: {
       type: String,
       required: true,
+      enum: ['hi', 'en', 'bn', 'mr', 'ta', 'te', 'gu', 'kn', 'ml', 'pa', 'or', 'as'],
       default: 'hi',
+      comment: 'Language codes: hi=Hindi, en=English, bn=Bengali, mr=Marathi, ta=Tamil, te=Telugu, gu=Gujarati, kn=Kannada, ml=Malayalam, pa=Punjabi, or=Odia, as=Assamese',
     },
     // For simple content like Aarti
     bodyText: {

@@ -77,6 +77,11 @@ const Navbar = () => {
             <Button color="inherit" onClick={() => navigate('/content')}>
               {t('nav.content')}
             </Button>
+            {user?.role === 'ADMIN' && (
+              <Button color="inherit" onClick={() => navigate('/admin/dashboard')} sx={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
+                👑 Admin
+              </Button>
+            )}
 
             <IconButton
               size="large"

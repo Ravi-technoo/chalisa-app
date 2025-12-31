@@ -14,6 +14,9 @@ import ContentCreate from './pages/Content/ContentCreate';
 import ContentViewer from './pages/ContentViewer';
 import Profile from './pages/Profile';
 import Payment from './pages/Payment';
+import AdminDashboard from './pages/Admin/Dashboard';
+import UserManagement from './pages/Admin/UserManagement';
+import ContentManagement from './pages/Admin/ContentManagement';
 
 const theme = createTheme({
   palette: {
@@ -60,6 +63,11 @@ function App() {
           <Route path="content/:id" element={<ContentDetail />} />
           <Route path="profile" element={<Profile />} />
           <Route path="payment" element={<Payment />} />
+
+          {/* Admin Routes */}
+          <Route path="admin/dashboard" element={<AdminDashboard />} />
+          <Route path="admin/users" element={<UserManagement />} />
+          <Route path="admin/content" element={<ContentManagement />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

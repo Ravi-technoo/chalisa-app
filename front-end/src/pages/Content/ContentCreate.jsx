@@ -168,6 +168,16 @@ const ContentCreate = () => {
                   <Select name="language" value={formData.language} onChange={handleChange}>
                     <MenuItem value="hi">हिन्दी (Hindi)</MenuItem>
                     <MenuItem value="en">English</MenuItem>
+                    <MenuItem value="bn">বাংলা (Bengali)</MenuItem>
+                    <MenuItem value="mr">मराठी (Marathi)</MenuItem>
+                    <MenuItem value="ta">தமிழ் (Tamil)</MenuItem>
+                    <MenuItem value="te">తెలుగు (Telugu)</MenuItem>
+                    <MenuItem value="gu">ગુજરાતી (Gujarati)</MenuItem>
+                    <MenuItem value="kn">ಕನ್ನಡ (Kannada)</MenuItem>
+                    <MenuItem value="ml">മലയാളം (Malayalam)</MenuItem>
+                    <MenuItem value="pa">ਪੰਜਾਬੀ (Punjabi)</MenuItem>
+                    <MenuItem value="or">ଓଡ଼ିଆ (Odia)</MenuItem>
+                    <MenuItem value="as">অসমীয়া (Assamese)</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
