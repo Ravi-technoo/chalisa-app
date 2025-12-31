@@ -1,0 +1,61 @@
+{
+  "app": {
+    "title": "Hanuman Chalisa App"
+  },
+  "auth": {
+    "login": "Login",
+    "enterPhone": "Enter Mobile Number",
+    "phoneNumber": "Mobile Number",
+    "enterOTP": "Enter OTP",
+    "otp": "OTP",
+    "sendOTP": "Send OTP",
+    "verifyOTP": "Verify OTP",
+    "resendOTP": "Resend OTP"
+  },
+  "nav": {
+    "home": "Home",
+    "content": "Content",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "playNow": "Play Now",
+    "readNow": "Read Now"
+  },
+  "content": {
+    "chalisa": "Chalisa",
+    "aarti": "Aarti",
+    "search": "Search",
+    "playAudio": "Play Audio",
+    "showMeaning": "Show Meaning",
+    "hideMeaning": "Hide Meaning",
+    "downloadOffline": "Download for Offline"
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "name": "Name",
+    "phone": "Phone",
+    "language": "Language",
+    "role": "Role",
+    "updateProfile": "Update Profile",
+    "unlockStatus": "Unlock Status"
+  },
+  "payment": {
+    "unlockPremium": "Unlock Premium",
+    "amount": "Amount",
+    "payNow": "Pay Now",
+    "unlocked": "Unlocked"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create"
+  }
+}

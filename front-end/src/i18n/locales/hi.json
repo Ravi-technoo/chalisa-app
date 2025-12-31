@@ -1,0 +1,61 @@
+{
+  "app": {
+    "title": "हनुमान चालीसा ऐप"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "enterPhone": "मोबाइल नंबर दर्ज करें",
+    "phoneNumber": "मोबाइल नंबर",
+    "enterOTP": "OTP दर्ज करें",
+    "otp": "OTP",
+    "sendOTP": "OTP भेजें",
+    "verifyOTP": "OTP सत्यापित करें",
+    "resendOTP": "OTP पुनः भेजें"
+  },
+  "nav": {
+    "home": "होम",
+    "content": "सामग्री",
+    "profile": "प्रोफ़ाइल",
+    "logout": "लॉगआउट"
+  },
+  "home": {
+    "welcome": "स्वागत है",
+    "playNow": "अभी सुनें",
+    "readNow": "अभी पढ़ें"
+  },
+  "content": {
+    "chalisa": "चालीसा",
+    "aarti": "आरती",
+    "search": "खोजें",
+    "playAudio": "ऑडियो चलाएं",
+    "showMeaning": "अर्थ दिखाएं",
+    "hideMeaning": "अर्थ छिपाएं",
+    "downloadOffline": "ऑफ़लाइन के लिए डाउनलोड करें"
+  },
+  "profile": {
+    "myProfile": "मेरी प्रोफ़ाइल",
+    "name": "नाम",
+    "phone": "फोन",
+    "language": "भाषा",
+    "role": "भूमिका",
+    "updateProfile": "प्रोफ़ाइल अपडेट करें",
+    "unlockStatus": "अनलॉक स्थिति"
+  },
+  "payment": {
+    "unlockPremium": "प्रीमियम अनलॉक करें",
+    "amount": "राशि",
+    "payNow": "अभी भुगतान करें",
+    "unlocked": "अनलॉक किया गया"
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "submit": "जमा करें",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "create": "बनाएं"
+  }
+}
