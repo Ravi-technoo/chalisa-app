@@ -59,30 +59,76 @@ const getContentById = async (req, res) => {
   }
 };
 
+const getContentByContentId = async (req, res) => {
+  try {
+    const { contentId } = req.params;
+    const { language } = req.query;
+
+    if (!language) {
+      return res.status(400).json({ error: 'Language parameter is required' });
+    }
+
+    const content = await Content.findOne({
+      contentId,
+      language,
+      isActive: true
+    });
+
+    if (!content) {
+      return res.status(404).json({ error: 'Content not found' });
+    }
+
+    if (content.isPremium && !req.user.isUnlocked) {
+      return res.status(403).json({ error: 'Premium content - unlock required' });
+    }
+
+    res.json({ content });
+  } catch (error) {
+    logger.error('Get content by contentId error:', error);
+    res.status(500).json({ error: 'Failed to fetch content' });
+  }
+};
+
 const createContent = async (req, res) => {
   try {
     const {
       type,
+      contentId,
       title,
       language,
       bodyText,
       meaningText,
+      doha,
+      chaupai,
       audioUrl,
       imageUrl,
       isPremium,
       metadata,
     } = req.body;
 
-    if (!type || !title || !language || !bodyText) {
-      return res.status(400).json({ error: 'Required fields missing' });
+    if (!type || !contentId || !title || !language) {
+      return res.status(400).json({ error: 'Required fields missing (type, contentId, title, language)' });
+    }
+
+    // For chalisa type, either chaupai or bodyText is required
+    if (type === 'chalisa' && (!chaupai || chaupai.length === 0)) {
+      return res.status(400).json({ error: 'Chalisa requires chaupai (verses) array' });
+    }
+
+    // For other types, bodyText is required
+    if (type !== 'chalisa' && !bodyText) {
+      return res.status(400).json({ error: 'BodyText is required for this content type' });
     }
 
     const content = await Content.create({
       type,
+      contentId,
       title,
       language,
       bodyText,
       meaningText,
+      doha,
+      chaupai,
       audioUrl,
       imageUrl,
       isPremium,
@@ -93,6 +139,9 @@ const createContent = async (req, res) => {
     res.status(201).json({ message: 'Content created successfully', content });
   } catch (error) {
     logger.error('Create content error:', error);
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Content with this contentId and language already exists' });
+    }
     res.status(500).json({ error: 'Failed to create content' });
   }
 };
@@ -149,6 +198,7 @@ const deleteContent = async (req, res) => {
 module.exports = {
   listContent,
   getContentById,
+  getContentByContentId,
   createContent,
   updateContent,
   deleteContent,

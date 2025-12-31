@@ -1,11 +1,39 @@
 const mongoose = require('mongoose');
 
+const verseSchema = new mongoose.Schema({
+  verse: {
+    type: String,
+    required: true,
+  },
+  meaning: {
+    type: String,
+    default: '',
+  },
+}, { _id: false });
+
+const dohaSchema = new mongoose.Schema({
+  opening: {
+    type: String,
+    default: '',
+  },
+  closing: {
+    type: String,
+    default: '',
+  },
+}, { _id: false });
+
 const contentSchema = new mongoose.Schema(
   {
     type: {
       type: String,
-      enum: ['aarti', 'chalisa'],
+      enum: ['aarti', 'chalisa', 'ramayan', 'mahabharat'],
       required: true,
+    },
+    contentId: {
+      type: String,
+      required: true,
+      trim: true,
+      comment: 'Unique identifier like hanuman-chalisa, ganesh-aarti',
     },
     title: {
       type: String,
@@ -17,13 +45,23 @@ const contentSchema = new mongoose.Schema(
       required: true,
       default: 'hi',
     },
+    // For simple content like Aarti
     bodyText: {
       type: String,
-      required: true,
+      default: '',
     },
     meaningText: {
       type: String,
       default: '',
+    },
+    // For structured content like Chalisa
+    doha: {
+      type: dohaSchema,
+      default: null,
+    },
+    chaupai: {
+      type: [verseSchema],
+      default: [],
     },
     audioUrl: {
       type: String,
@@ -36,7 +74,7 @@ const contentSchema = new mongoose.Schema(
     createdBy: {
       type: String,
       required: true,
-      comment: 'User ID of Pandit who created this',
+      comment: 'User ID of Pandit/Admin who created this',
     },
     isPremium: {
       type: Boolean,
@@ -50,6 +88,7 @@ const contentSchema = new mongoose.Schema(
       duration: Number,
       artist: String,
       tags: [String],
+      description: String,
     },
   },
   {
@@ -57,9 +96,10 @@ const contentSchema = new mongoose.Schema(
   }
 );
 
-// Indexes for search
-contentSchema.index({ title: 'text', bodyText: 'text', meaningText: 'text' });
+// Indexes for search and queries
+contentSchema.index({ title: 'text', bodyText: 'text', meaningText: 'text' }, { language_override: 'dummy' });
 contentSchema.index({ type: 1, language: 1 });
+contentSchema.index({ contentId: 1, language: 1 }, { unique: true });
 contentSchema.index({ isActive: 1 });
 
 const Content = mongoose.model('Content', contentSchema);

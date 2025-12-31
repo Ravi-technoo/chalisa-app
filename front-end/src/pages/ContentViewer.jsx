@@ -15,13 +15,16 @@ import {
   Stack,
   ToggleButtonGroup,
   ToggleButton,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextIncreaseIcon from '@mui/icons-material/TextIncrease';
 import TextDecreaseIcon from '@mui/icons-material/TextDecrease';
 import TranslateIcon from '@mui/icons-material/Translate';
-import { hanumanChalisa, contentTypes } from '../data/hanumanChalisa';
+import { contentTypes } from '../data/hanumanChalisa';
 import AudioPlayer from '../components/AudioPlayer';
+import api from '../services/api';
 
 const ContentViewer = () => {
   const { contentId } = useParams();
@@ -29,22 +32,41 @@ const ContentViewer = () => {
   const { i18n } = useTranslation();
   const [content, setContent] = useState(null);
   const [contentInfo, setContentInfo] = useState(null);
-  const [fontSize, setFontSize] = useState(1.1); // Default font size multiplier
+  const [fontSize, setFontSize] = useState(1.1);
   const [showMeaning, setShowMeaning] = useState(true);
   const [currentVerseIndex, setCurrentVerseIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const currentLanguage = i18n.language;
 
   useEffect(() => {
-    // Find content info
-    const info = contentTypes.find((c) => c.id === contentId);
-    setContentInfo(info);
+    const fetchContent = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-    // Load content based on contentId
-    if (contentId === 'hanuman-chalisa') {
-      setContent(hanumanChalisa[currentLanguage]);
-    } else {
-      // For other content types, show placeholder
-      setContent(null);
+        // Find content info from contentTypes
+        const info = contentTypes.find((c) => c.id === contentId);
+        setContentInfo(info);
+
+        // Fetch content from API
+        const response = await api.get(`/content/by-content-id/${contentId}`, {
+          params: { language: currentLanguage }
+        });
+
+        if (response.data && response.data.content) {
+          setContent(response.data.content);
+        }
+      } catch (err) {
+        console.error('Error fetching content:', err);
+        setError(err.response?.data?.error || 'Failed to load content');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (contentId) {
+      fetchContent();
     }
   }, [contentId, currentLanguage]);
 
@@ -74,21 +96,44 @@ const ContentViewer = () => {
     }
   };
 
-  if (!contentInfo) {
+  // Loading state
+  if (loading) {
+    return (
+      <Container maxWidth="md" sx={{ py: 4, display: 'flex', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
+
+  // Error state
+  if (error) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
-        <Typography variant="h5" color="error">
-          Content not found
-        </Typography>
-        <Button onClick={handleBack} sx={{ mt: 2 }}>
-          Go Back
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+        <Button onClick={handleBack} variant="outlined">
+          {currentLanguage === 'hi' ? 'वापस जाएं' : 'Go Back'}
         </Button>
       </Container>
     );
   }
 
-  // Render Hanuman Chalisa
-  if (contentId === 'hanuman-chalisa' && content) {
+  if (!contentInfo || !content) {
+    return (
+      <Container maxWidth="md" sx={{ py: 4 }}>
+        <Typography variant="h5" color="error">
+          {currentLanguage === 'hi' ? 'सामग्री नहीं मिली' : 'Content not found'}
+        </Typography>
+        <Button onClick={handleBack} sx={{ mt: 2 }}>
+          {currentLanguage === 'hi' ? 'वापस जाएं' : 'Go Back'}
+        </Button>
+      </Container>
+    );
+  }
+
+  // Render content with verses (Chalisa type)
+  if (content.type === 'chalisa' && content.chaupai && content.chaupai.length > 0) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
         {/* Header */}
